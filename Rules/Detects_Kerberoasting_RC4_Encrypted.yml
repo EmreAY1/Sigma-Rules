@@ -1,0 +1,36 @@
+title: Detects Possible Kerberoasting via RC4 Encrypted Kerberos Service Ticket Request
+id: a04ab7e3-775f-4cf4-9c8c-3504e415f7ef
+status: stable
+description: Detects the suspicious RC4 encrypted kerberos service ticket requests which are normally utilized by services associated with SPNs. Kerberoasting is an effective method for privilege escalation, pivoting, and even persistence.
+author: Emre Ay
+date: 2022/11/1
+references:
+- https://www.trustedsec.com/blog/art_of_kerberoast/
+- https://redsiege.com/tools-techniques/2020/10/detecting-kerberoasting/
+- https://adsecurity.org/?p=3458
+- https://sbscyber.com/resources/kerberoasting-the-potential-dangers-of-spn-accounts
+logsource:
+  product: windows
+  service: security
+detection:
+  selection_id:
+    EventID: 4769
+    TicketEncryptionType: 
+     - '0x17'
+    TicketOptions: 
+     - '0x40810000'
+    FailureCode: 
+     - '0x0'
+  service_machine:
+    ServiceName: 
+     - 'krbtgt'
+    AccountName|contains: 
+     - '$@'
+  condition: selection_id and not service_machine
+falsepositives:
+- Software installations/updates
+level: high
+tags:
+- attack.credential_access
+- attack.t1558.003
+- attack.ta0006
