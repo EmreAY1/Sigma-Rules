@@ -1,0 +1,30 @@
+title: Detect New Behaviors (November 2022) of Emotet Campaign via Botnet Urls Traffic (via Proxy)
+id: 3085a3b3-0938-431e-88e7-576fb52e4d62
+status: experimental
+description: Detects suspicious communication to Emotet Botnet Url. Urls contain information about Emotet DLL payload , IcedID binary ,Bumblebee downloader,Bumblebee DLL. Also malicious Emotet payloader is dowmloaded from this Urls.
+references:
+- https://blog.cyble.com/2022/11/09/emotet-returns-targeting-users-worldwide/
+author: Emre Ay
+date: 2022/11/10
+logsource:
+  category: proxy
+detection:
+  selection:
+    c-uri|endswith:
+    - designelis.com.br/wp-content/NNfbZZegI/
+    - copayucatan.com.mx/wp-
+    - includes/BqaJMpC3osZ0LRnKK/
+    - cursosweb.com.br/portal/6ozjR/
+    - db.rikaz.tech/lCx76IlkrBtEsqNFA7/
+    - bayernbadabum.com/botpack.dat
+    - 87.251.67.176/tps1.ps1
+    - 134.209.118.141/bb.dll
+  condition: selection
+falsepositives:
+- Unknown
+tags:
+- attack.Execution
+- attack.command_and_control
+- attack.T1204.001
+- attack.T1105
+level: high
