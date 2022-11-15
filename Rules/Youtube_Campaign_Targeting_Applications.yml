@@ -1,0 +1,35 @@
+title: Possible YouTube Campaign Targeting Applications To Deliver Info Stealer (via Proxy)
+id: a07ae6bb-5248-470e-a269-181958c9c75e
+status: experimental
+description: Detects suspicious communication to malicious Url which is used by Adversaries who are running 4 youtube video campaigns.
+references:
+- https://blog.cyble.com/2022/11/08/massive-youtube-campaign-targeting-over-100-applications-to-deliver-info-stealer/
+author: Emre Ay
+date: 2022/11/10
+logsource:
+  category: proxy
+detection:
+  selection:
+    c-uri|endswith:
+    - appshigha.com/
+    - soft-exp.org/
+    - teensoft.org/
+    - wh1tesoftware.me/
+    - 195.201.251.82:80
+    - 51.255.211.253/
+    - 95.217.27.240/
+    - 91.213.50.70/Objhkcgmiub.bmp
+  condition: selection
+falsepositives:
+- Unknown
+tags:
+- attack.Execution
+- attack.T1204.002
+- attack.T1204.001
+- attack.command_and_control
+- attack.Exfiltration
+- attack.T1041
+- attack.Credential_access
+- attack.Collection
+- attack.t1113
+level: critical
