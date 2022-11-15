@@ -1,0 +1,32 @@
+title: UAC Bypass via Modifying WSReset Shell Registry Key
+id: 7d89fe68-4fd7-410f-b5ba-0b29cf80f5a9
+status: stable
+description: Detects the setting of the command registry value of WSReset program which normally used to reset Windows Store. Adversaries put link of their malicious file into this registry value and get high privilege program execution with execution of WSReset.exe.
+author: Emre Ay
+date: 2022/11/8
+references:
+- https://blog.morphisec.com/trickbot-uses-a-new-windows-10-uac-bypass
+- https://www.bleepingcomputer.com/news/security/trickbot-uses-a-new-windows-10-uac-bypass-to-launch-quietly/
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    Image|endswith:
+    - reg.exe
+    CommandLine|contains|all:
+    - add
+    - AppX82a6gwre4fdg3bt635tn5ctqjf8msdd2
+    - Shell
+    - open
+    - command
+  condition: selection
+falsepositives:
+- None
+level: high
+tags:
+- attack.defense_evasion
+- attack.privilege_escalation
+- attack.t1088
+- attack.ta0004
+- attack.ta0005
