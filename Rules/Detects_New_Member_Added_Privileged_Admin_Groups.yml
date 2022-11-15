@@ -1,0 +1,28 @@
+title: Detects New Member Added into Privileged Admin Groups for Gaining Admin Rights ( Domain admins group, Enterprise Admins group)
+id: 9df9b75d-e017-4a1f-b644-96dd831928d8
+description: Detects scenarios where an attacker adds its account into a Privileged Groups such as domain admins and enterprise admins group
+references:
+- https://www.manageengine.com/products/active-directory-audit/how-to/find-who-added-user-to-domain-admins-group.html
+- https://www.netwrix.com/how_to_detect_membership_changes_in_domain_admins_group.html
+- https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/privileged-groups-and-token-privileges
+author: Emre Ay
+date: 2022/11/1
+status: experimental
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    EventID:
+    - '4728'
+    TargetUserName:
+    - 'Domain Admins'
+    - 'Enterprise Admins'
+  condition: selection
+falsepositives:
+- Legitimate administrative activities
+level: high
+tags:
+- attack.privilege_escalation
+- attack.persistence
+- attack.t1098
