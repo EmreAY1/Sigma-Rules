@@ -1,0 +1,26 @@
+title: Windows Event Log Deletion for Defense Evasion ( Security Event Log)
+id: fb15b1e0-a7f5-4651-b715-322f0f004b46
+status: stable
+description: Detects deletion of Windows Event Logs except Windows Security Event Logs. This technique is commonly utilized for defense evasion as APT32 threat group's usage in its campaigns.
+author: Emre ay
+date: 2022/11/1
+references:
+- https://attack.mitre.org/techniques/T1070/
+- https://attack.mitre.org/tactics/TA0005/
+- https://svch0st.medium.com/event-log-tampering-part-1-disrupting-the-eventlog-service-8d4b7d67335c
+- https://dmcxblue.gitbook.io/red-team-notes-2-0/red-team-techniques/defense-evasion/t1070-indicator-removal-on-host/clear-windows-event-logs
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    EventID: '1102'
+    TaskCategory: 'Log clear'
+  condition: selection
+falsepositives:
+- Legitimate administrative activities
+tags:
+- attack.defense_evasion
+- attack.t1070
+- attack.ta0005
+level: high
