@@ -1,0 +1,33 @@
+title: Detects Disable Windows Defender Real-Time Monitoring
+id: e49c3230-d29f-4d2f-a51d-d9c7990c5cdf
+status: stable
+description: Detects the modification of registry values which are set to disable Windows Defender real-time Monitoring.
+author: Emre Ay
+references:
+- https://attack.mitre.org/techniques/T1562/001/
+- https://gist.github.com/pe3zx/7c5e0080c3b0869ccba1f1dc2ea0c5e0
+logsource:
+  category: registry_event
+  product: windows
+detection:
+  selection:
+    TargetObject:
+    - HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection\DisableScriptScanning
+    - HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection\DisableRealtimeMonitoring
+    - HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection\DisableIOAVProtection
+    - HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection\DisableBehaviorMonitoring
+    - HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection\DisableOnAccessProtection
+    - HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection\DisableScanOnRealtimeEnable
+    - HKLM\Software\Policies\Windows Defender\Reporting\DisableEnhancedNotifications
+    - HKLM\Software\Policies\Microsoft\Windows Defender\SpyNet\DisableBlockAtFirstSeen
+    - HKLM\Software\Policies\Microsoft\Windows Defender\DisableAntiSpyware
+    - HKLM\Software\Policies\Microsoft\Windows Defender\DisableAntiVirus
+    EventType: SetValue
+    Details: DWORD (0x00000001)
+  condition: selection
+falsepositives:
+- Legitimate administrative activities
+level: high
+tags:
+- attack.defense_evasion
+- attack.t1562.001
