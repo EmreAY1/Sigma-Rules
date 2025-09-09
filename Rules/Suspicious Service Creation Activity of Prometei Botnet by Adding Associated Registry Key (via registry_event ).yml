@@ -1,0 +1,23 @@
+title: Suspicious Service Creation Activity of Prometei Botnet by Adding Associated Registry Key (via registry_event )
+status: stable
+description: This rule detects suspicious service creation activity that performed by  Prometei Botnet which responsible for dropping additional components and connecting to C&C sersers to download additional malicious files.
+author: Emre Ay
+references:
+- https://www.trendmicro.com/en_us/research/24/j/unmasking-prometei-a-deep-dive-into-our-mxdr-findings.html
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    TargetObject|endswith:
+    - '\SYSTEM\CurrentControlSet\Services\UPlugPlay'
+    Details|contain|all:
+    - 'sqhost.exe'
+    - 'dcomsvc'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.defense_evasion
+- attack.t1112
+level: high
