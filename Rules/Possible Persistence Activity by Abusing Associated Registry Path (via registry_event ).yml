@@ -1,0 +1,23 @@
+title: Possible Persistence Activity by Abusing Associated Registry Path (via registry_event )
+status: stable
+description: This rule detects the suspicious persistence activity that attempt to replace the legitimate diskcleanup registry value known as a cleanmgr.exe with the malicious executable.
+author: Emre Ay
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1112/T1112.md#atomic-test-87---abusing-mycomputer-disk-cleanup-path-for-persistence
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    TargetObject|endswith:
+    - '\CurrentVersion\Explorer\MyComputer\cleanuppath'
+  filter:  
+    Details|contains:
+    - 'cleanmgr.exe'
+  condition: selection and not filter
+falsepositives:
+- Unlikely
+tags:
+- attack.defense_evasion
+- attack.t1112
+level: high
