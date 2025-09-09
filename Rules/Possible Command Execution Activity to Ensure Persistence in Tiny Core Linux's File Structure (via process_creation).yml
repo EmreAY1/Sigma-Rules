@@ -1,0 +1,22 @@
+title: Possible Command Execution Activity to Ensure Persistence in Tiny Core Linux's File Structure (via process_creation)
+status: stable
+description: This rule detects the possible persistence activity in linux environment by running associated commands which ensures that any changes to system configuration are retained. 
+author: Emre Ay
+references:
+-  https://www.securonix.com/blog/crontrap-emulated-linux-environments-as-the-latest-tactic-in-malware-staging/
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    CommandLine|contains|all:
+    - 'filetool.sh'   
+    - '-b'
+  condition: selection
+falsepositives:
+- Unlikely
+level: high
+tags:
+- attack.persistence
+- attack.execution
+- attack.t1059.004
