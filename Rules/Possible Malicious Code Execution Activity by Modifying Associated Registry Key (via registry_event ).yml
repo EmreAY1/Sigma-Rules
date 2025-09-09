@@ -1,0 +1,23 @@
+title: Possible Malicious Code Execution Activity by Modifying Associated Registry Key (via registry_event )
+status: stable
+description: This rule detects the suspicious modification of registry key related with MSDTC Service that aim to execute malicious code by changing default value in this registry key.
+author: Emre Ay
+references:
+- https://www.crowdstrike.com/en-us/blog/4-ways-adversaries-hijack-dlls/
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    TargetObject|endswith:
+    - '\Microsoft\MSDTC\MTxOCI\OracleOciLib'
+  filter:
+    Details|contains:
+    - 'oci.dll'
+  condition: selection and not filter
+falsepositives:
+- Unlikely
+tags:
+- attack.defense_evasion
+- attack.t1112
+level: high
