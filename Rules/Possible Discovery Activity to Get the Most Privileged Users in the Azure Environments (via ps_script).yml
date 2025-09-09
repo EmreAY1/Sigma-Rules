@@ -1,0 +1,24 @@
+title: Possible Discovery Activity to Get the Most Privileged Users in the Azure Environments (via ps_script)
+status: stable
+description:This rule detects the suspicious powershell command execution with related parameter that aim to get most privileged users in the target azure environment.
+author: Emre Ay
+references:
+- https://github.com/cyberark/SkyArk/blob/master/AzureStealth/README.md
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1082/T1082.md#atomic-test-24---azure-security-scan-with-skyark
+logsource:
+  product: windows
+  category: ps_script
+detection:
+  selection:
+    ScriptBlockText|contains|all:
+    - 'Scan-AzureAdmins'
+    - '-UseCurrentCred'
+  condition: selection
+falsepositives:
+- Unlikely
+level: high
+tags:
+- attack.discovery
+- attack.t1087.004
+- attack.execution
+- attack.t1059.001
