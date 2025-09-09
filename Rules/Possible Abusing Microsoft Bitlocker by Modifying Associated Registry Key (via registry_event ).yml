@@ -1,0 +1,24 @@
+title: Possible Abusing Microsoft Bitlocker by Modifying Associated Registry Key (via registry_event )
+status: stable
+description: This rule detects the threat actors that attempt to modify associated registry key which allows to abuse microsoft bitlocker. 
+author: Emre Ay
+references:
+- https://securelist.com/ransomware-abuses-bitlocker/112643/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1112/T1112.md#atomic-test-84---modify-usepin-registry-entry
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    TargetObject|endswith:
+    - '\Policies\Microsoft\FVE\UsePIN'
+    Details:
+    - 'DWORD (0x00000002)'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.impact
+- attack.defense_evasion
+- attack.t1112
+level: high
