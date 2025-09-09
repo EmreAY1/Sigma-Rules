@@ -1,0 +1,20 @@
+title: Possible Persistence Activity of Remcos Rat by Adding Suspicious Registry key ( via registry_event )
+status: stable
+description: This rule detects Remcos Rat activity that creates suspicious registry key to achieve persistence on a victim machine. 
+author: Emre Ay
+references:
+- https://www.fortinet.com/blog/threat-research/new-campaign-uses-remcos-rat-to-exploit-victimsr
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    TargetObject|contains: 
+    - 'Windows\CurrentVersion\Run\Chivey57'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.persistence
+- attack.t1547.001
+level: medium
