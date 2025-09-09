@@ -1,0 +1,22 @@
+title: Possible Internal Ping Sweep and Network Scanning by Using Malicious Powershell Tool (via ps_script)
+status: stable
+description: This rule detects the suspicious powershell command execution that aim to ping sweep and network scanning activity on victim system.
+author: Emre Ay
+references:
+- https://github.com/EliteLoser/PSnmap/blob/master/PSnmap.psm1
+logsource:
+  product: windows
+  category: ps_script
+detection:
+  selection:
+    ScriptBlockText|contains|all:
+    - 'PSnmap'
+    - '-Cn'
+    - '-Port'
+  condition: selection
+falsepositives:
+- Unlikely
+level: medium
+tags:
+- attack.execution
+- attack.t1059.001
