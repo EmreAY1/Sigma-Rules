@@ -1,0 +1,22 @@
+title: Possible Command Execution to Enumerate Properties for Users in the Domain (via ps_script)
+id: be6e145b-855a-4909-9190-578e59ffbeb1
+status: stable
+description:This rule detects enumeration activity to get list of properties for the domain users by executing associated powershell commands.
+author: Emre Ay
+references:
+- https://github.com/0xJs/RedTeaming_CheatSheet/blob/main/windows-ad/Domain-Enumeration.md#get-list-of-all-properties-for-users-in-the-current-domain
+logsource:
+  product: windows
+  category: ps_script
+detection:
+  selection:
+    ScriptBlockText|contains|all :
+    - 'Get-Userproperty'
+    - '-Properties'
+  condition: selection
+falsepositives:
+- Unlikely
+level: medium
+tags:
+- attack.discovery
+- attack.t1087.002
