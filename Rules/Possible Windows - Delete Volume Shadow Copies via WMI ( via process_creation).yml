@@ -1,0 +1,24 @@
+title: Possible Windows - Delete Volume Shadow Copies via WMI ( via process_creation)
+id: 6e014dc0-7561-4468-a02b-b4bfc8c66cda
+status: stable
+description: This rule detects Deletes Windows Volume Shadow Copies via WMI. This technique is used by numerous ransomware families and APT malware such as Olympic Destroyer.
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1490/T1490.md#atomic-test-2---windows---delete-volume-shadow-copies-via-wmi
+author: Emre Ay
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    Image|endswith:
+    - 'wmic.exe'
+    CommandLine|contains|all:
+    - 'delete'
+    - 'shadowcopy'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.impact
+- attack.t1490
+level: high
