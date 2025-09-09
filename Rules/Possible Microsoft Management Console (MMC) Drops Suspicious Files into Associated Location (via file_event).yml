@@ -1,0 +1,23 @@
+title: Possible Microsoft Management Console (MMC) Drops Suspicious Files into Associated Location (via file_event)
+status: stable
+description: This rule detects the threat actors that attempt to drops files into suspicious location via Microsoft Management Console process. This activity may be related to the GrimResource infection technique.
+author: Emre Ay
+references:
+- https://www.elastic.co/security-labs/grimresource
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection:
+    Image|endswith:
+     - 'mmc.exe'
+    TargetFilename|contains|all:
+     - '\AppData\Local\Microsoft\Windows\INetCache\IE'
+     - '\redirect[?]'
+  condition: selection
+falsepositives:
+- Unlikely
+level: medium
+tags:
+- attack.initial_access
+- attack.t1566.001
