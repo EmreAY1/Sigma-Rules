@@ -1,0 +1,24 @@
+title: Possible Persistence Activity by Creating New Account in Azure AD (via ps_script)
+id: f78f64f3-cb15-4771-8b4d-8dda01f1f58f
+status: stable
+description:This rule detects the suspicious powershell commands that aim to create new users in Azure AD platform. The threat actors can use this technique to evade detection and ensure their persistence on compromised system.
+author: Emre Ay
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1136.003/T1136.003.md#atomic-test-2---azure-ad---create-a-new-user
+logsource:
+  product: windows
+  category: ps_script
+detection:
+  selection:
+    ScriptBlockText|contains|all :
+    - 'New-AzureADUser'
+    - '-DisplayName'
+    - '-AccountEnabled'
+  condition: selection
+falsepositives:
+- The possible admin activity
+level: low
+tags:
+- attack.persistence
+- attack.defense_evasion
+- attack.t1136.003
