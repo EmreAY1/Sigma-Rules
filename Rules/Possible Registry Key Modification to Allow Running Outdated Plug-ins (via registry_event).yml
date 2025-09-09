@@ -1,0 +1,24 @@
+title: Possible Registry Key Modification to Allow Running Outdated Plug-ins (via registry_event)
+id: e12d224f-d3d1-49bf-83e1-99caca16a568
+status: stable
+description: This rule detects the suspicious registry key modification that leads to system compromise through the use of known exploits.By allowing this feature chrome will prompt the user to use an outdated plugin which can increase the possibility of running a plugin that contains an exploit or security hole. Note that this security control is applicable for Google Chrome versions lower than 87.0.0.0
+author: Emre Ay
+references:
+- https://admx.help/?Category=Chrome&Policy=Google.Policies.Chrome::AllowOutdatedPlugins&Language=en-gb
+- https://www.stigviewer.com/stig/google_chrome_current_windows/2020-12-11/finding/V-221568
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    TargetObject|endswith:
+    - '\Policies\Google\Chrome\AllowOutdatedPlugins'
+    Details:
+    - 'DWORD (0x00000001)'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.defense_evasion
+- attack.t1112
+level: medium
