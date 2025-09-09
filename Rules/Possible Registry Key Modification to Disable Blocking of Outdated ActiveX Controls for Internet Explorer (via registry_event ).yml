@@ -1,0 +1,22 @@
+title: Possible Registry Key Modification to Disable Blocking of Outdated ActiveX Controls for Internet Explorer (via registry_event )
+status: stable
+description: This rule detects suspicious registry key modification to turnoff blocking of outdated activex controls feature. Many ActiveX controls are not automatically updated as new versions are released. It is very important to keep ActiveX controls up to date because malicious or compromised webpages can target security flaws in outdated ActiveX controls.
+author: Emre Ay
+references:
+- https://admx.help/?Category=InternetExplorer&Policy=Microsoft.Policies.InternetExplorer::VerMgmtDisable
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    TargetObject|endswith:
+    - '\CurrentVersion\Policies\Ext\VersionCheckEnabled'
+    Details:
+    - 'DWORD (0x00000000)'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.defense_evasion
+- attack.t1112
+level: high
