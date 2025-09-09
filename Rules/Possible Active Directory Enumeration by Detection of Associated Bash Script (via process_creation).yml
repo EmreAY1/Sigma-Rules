@@ -1,0 +1,21 @@
+title: Possible Active Directory Enumeration by Detection of Associated Bash Script (via process_creation)
+status: stable
+description: This rule detects the suspicious bash script which allows the threat actors to enumerate Active Directory from linux.
+author: Emre Ay
+references:
+-  https://www.sentinelone.com/blog/anatomy-of-a-cloud-incident-sentinelones-vigilance-v-icefire-ransomware/
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    CommandLine|contains|all:
+    - 'linWinPwn.sh'
+    - '-t'
+  condition: selection
+falsepositives:
+- Unlikely
+level: high
+tags:
+- attack.execution
+- attack.t1059.004
