@@ -1,0 +1,25 @@
+title: Suspicious Xehook Stealer Exfiltration Activity Targeting Cryptocurrencies by Detection of Associated Request Parameters(via proxy)
+status: stable
+description: This rule detects Xehook Stealer that collects cryptocurrency details and sends them to command and control servers via using POST request. While making this request, it uses parameters specific to this attack activity and exfiltrate the information such as pcname, ip, domain , username, bssid etc. gathered from the victim's device to the command and control server by typing in the parameters in the URL.
+author: Emre Ay
+references:
+- https://www.joesandbox.com/analysis/1404841/0/html#domains
+logsource:
+  category: proxy
+detection:
+  selection:
+    cs-method: POST
+    c-uri|contains|all:
+    - 'token=xehook'
+    - 'pcname='
+    - 'BSSID='
+    - 'ip='
+    - 'username='
+    - 'domaindetect='
+  condition: selection
+falsepositives:
+- Unlikely
+level: medium
+tags:
+- attack.t1041
+- attack.exfiltration
