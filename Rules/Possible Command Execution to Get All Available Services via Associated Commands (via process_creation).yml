@@ -1,0 +1,21 @@
+title: Possible Command Execution to Get All Available Services via Associated Commands (via process_creation)
+status: stable
+description: This rule detects the suspicious command execution to list all available services on compromised Linux system by using associated commands
+author: Emre Ay
+references:
+-  https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1489/T1489.md#atomic-test-7---linux---stop-service-by-killing-process-using-pkill
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    CommandLine|contains|all:
+    - 'list-units'   
+    - '--type=service'
+  condition: selection
+falsepositives:
+- The possible admin activity
+level: medium
+tags:
+- attack.discovery
+- attack.t1007
