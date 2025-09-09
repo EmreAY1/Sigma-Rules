@@ -1,0 +1,22 @@
+title: Possible Registry Key Modification to Disable Enhanced Protected Mode (via registry_event )
+status: stable
+description: This rule detects the suspicious modification of associated registry key to turn off Enhanced Protected Mode setting that allows the threat actors to ensure their potantial further attacks and download additional malware from their malicious websites.
+author: Emre Ay
+references:
+- https://admx.help/?Category=Windows_10_2016&Policy=Microsoft.Policies.InternetExplorer::Advanced_EnableEnhancedProtectedMode
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    TargetObject|endswith:
+    - '\Microsoft\Internet Explorer\Main\Isolation'
+    Details:
+    - 'PMIL'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.defense_evasion
+- attack.t1112
+level: medium
