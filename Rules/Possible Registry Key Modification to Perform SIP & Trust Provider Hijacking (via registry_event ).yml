@@ -1,0 +1,23 @@
+title: Possible Registry Key Modification to Perform SIP & Trust Provider Hijacking (via registry_event )
+status: stable
+description: This rule detects the adversaries that attempt to sign rogue Unsigned powershell script with Microsoft's certificates for bypassing any whitelisting protections.  
+author: Emre Ay
+references:
+- https://www.ired.team/offensive-security/persistence/t1198-trust-provider-hijacking
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    TargetObject|contains|all:
+    - '\Microsoft\Cryptography\OID\EncodingType 0\CryptSIPDllVerifyIndirectData\'
+    - '\FuncName'
+    Details:
+    - 'DbgUIContinue'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.defense_evasion
+- attack.t1112
+level: high
