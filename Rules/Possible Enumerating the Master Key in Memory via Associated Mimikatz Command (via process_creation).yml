@@ -1,0 +1,20 @@
+title: Possible Enumerating the Master Key in Memory via Associated Mimikatz Command (via process_creation)
+status: stable
+description: This rule detects suspicious command execution that aim to discover the DPAPI master key in the memory which allows the threat actors to decyprt secrets suchs as chrome secret in the compromised system.
+author: Emre Ay
+references:
+- https://www.ired.team/offensive-security/credential-access-and-credential-dumping/reading-dpapi-encrypted-secrets-with-mimikatz-and-c++#decrypting-other-users-secrets
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    CommandLine|contains:
+    - 'sekurlsa::dpapi'
+  condition: selection
+falsepositives:
+- unlikely
+level: medium
+tags:
+- attack.execution
+- attack.t1059.003
