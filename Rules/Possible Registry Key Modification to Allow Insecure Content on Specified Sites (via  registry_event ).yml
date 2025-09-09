@@ -1,0 +1,20 @@
+title: Possible Registry Key Modification to Allow Insecure Content on Specified Sites (via  registry_event )
+status: stable
+description: This rule detects the modification of associated registry key which allow the threat actors to add exceptions to load mixed content for specific sites. 
+author: Emre Ay
+references:
+- https://admx.help/?Category=EdgeChromium&Policy=Microsoft.Policies.Edge::InsecureContentAllowedForUrls
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    TargetObject|endswith:
+    - '\Microsoft\Edge\InsecureContentAllowedForUrls'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.defense_evasion
+- attack.t1112
+level: medium
