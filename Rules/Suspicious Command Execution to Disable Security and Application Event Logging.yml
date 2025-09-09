@@ -1,0 +1,26 @@
+title: Suspicious Command Execution to Disable Security and Application Event Logging
+status: stable
+description: This rule detects the threat actors that attempt to disable application event logging to evade further investigation process.
+references:
+- https://research.checkpoint.com/2025/funksec-alleged-top-ransomware-group-powered-by-ai/
+author: Emre Ay
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    Image|endswith:
+    - 'wevtutil.exe'
+    CommandLine|contains|all:
+    - 'sl'
+    - 'false'
+    CommandLine|contains:
+    - 'Application'
+    - 'Security'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.defense_evasion
+- attack.t1562.002
+level: high
