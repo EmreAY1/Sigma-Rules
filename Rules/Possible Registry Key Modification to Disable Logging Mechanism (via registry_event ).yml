@@ -1,0 +1,22 @@
+title: Possible Registry Key Modification to Disable Logging Mechanism (via registry_event )
+status: stable
+description: This rule detects the suspicious modification of associated registry key to turn off logging policy setting which allows the adversaries to evade forensic analysis. This technique is widely used as an anti-forensics technique.
+author: Emre Ay
+references:
+- https://admx.help/?Category=Windows_10_2016&Policy=Microsoft.Policies.EventLogs::Channel_LogEnabled
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    TargetObject|endswith:
+    - '\Microsoft\Windows\EventLog\Setup\Enabled'
+    Details:
+    - 'DWORD (0x00000000)'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.defense_evasion
+- attack.t1112
+level: high
