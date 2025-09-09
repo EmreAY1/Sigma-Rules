@@ -1,0 +1,24 @@
+title: Suspicious Command Execution of STOP Ransomware by Detection of Associated Commandline ( via process_creation)
+status: stable
+description: This rule detects suspicious commands related with "STOP" ransomware that aim to start its malicious activity via using associated commands.  
+references:
+- https://glyc3rius.github.io/2024/02/stop/
+author: Emre Ay
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    CommandLine|contains:
+    - '--Admin'
+    - '--ForNetRes'
+    CommandLine|contains|all:
+    - 'IsAutoStart'
+    - 'IsTask'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.execution
+- attack.t1059.003
+level: high
