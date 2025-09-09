@@ -1,0 +1,22 @@
+title: Possible Persistence Activity of ValleyRAT by Adding Suspicious Registry Key (via registry_event )
+status: stable
+description: This rule detects the ValleyRat ( remote access trojan) behavior that attempt to add suspicious registry value into the run key to provide their persistence on victim system. 
+author: Emre Ay
+references:
+- https://www.zscaler.com/blogs/security-research/technical-analysis-latest-variant-valleyrat
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    TargetObject|endswith:
+    - '\Microsoft\Windows\CurrentVersion\Run\WINWORD2013'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.persistence
+- attack.t1547.001
+- attack.defense_evasion
+- attack.t1112
+level: medium
