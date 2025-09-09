@@ -1,0 +1,30 @@
+title: Possible Command Execution Activity to Manipulate (disable fw, CurrentProfile) System Firewalls (via process_creation)
+status: stable
+description: This rule detects the threat actors related with new persian RAT campaign that attempt to disable firewall and current FW profile on victim system. 
+author: Emre Ay
+references:
+- https://cyble.com/blog/new-persian-remote-world-selling-a-suite-of-malicious-tools/
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection_disablefw:
+    CommandLine|contains|all:
+    - 'netsh'
+    - 'firewall'
+    - 'set'
+    - 'disable'
+  selection_disableprofile:
+    CommandLine|contains|all:
+    - 'netsh'
+    - 'advfirewall'
+    - 'set'
+    - 'currentprofile'
+    - 'off'
+  condition: selection_disablefw or selection_disableprofile
+falsepositives:
+- unlikely
+level: high
+tags:
+- attack.execution
+- attack.t1059.003
