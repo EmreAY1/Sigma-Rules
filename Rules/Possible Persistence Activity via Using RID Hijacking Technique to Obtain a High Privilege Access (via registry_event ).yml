@@ -1,0 +1,22 @@
+title: Possible Persistence Activity via Using RID Hijacking Technique to Obtain a High Privilege Access (via registry_event )
+status: stable
+description: This rule detects threat actors that attempt to use RID hijacking technique to make the low privileged account assume administrator privileges on the next logon via changing associated registry value. Even If low privileged users has admin privileges after this attack still does not belong to local administrators group.
+author: Emre Ay
+references:
+- https://www.ired.team/offensive-security/persistence/rid-hijacking
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    TargetObject|contains|all:
+    - '\SAM\SAM\Domains\Account\Users\'
+    - '\F'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.defense_evasion
+- attack.persistence
+- attack.t1112
+level: high
