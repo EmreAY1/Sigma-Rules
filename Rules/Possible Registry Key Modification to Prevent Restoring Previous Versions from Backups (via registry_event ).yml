@@ -1,0 +1,24 @@
+title: Possible Registry Key Modification to Prevent Restoring Previous Versions from Backups (via registry_event )
+status: stable
+description: This rule detects the suspicious modification of associated registry key to disable policy setting which inhibits the compromised system to restore to the previous versions from the backups by disabling restore button.
+author: Emre Ay
+references:
+- https://admx.help/?Category=Windows_10_2016&Policy=Microsoft.Policies.PreviousVersions::DisableBackupRestore_1
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    TargetObject|endswith:
+    - '\Policies\Microsoft\PreviousVersions\DisableBackupRestore'
+    Details:
+    - 'DWORD (0x00000001)'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.impact
+- attack.t1490
+- attack.defense_evasion
+- attack.t1112
+level: medium
