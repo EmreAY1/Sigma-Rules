@@ -1,0 +1,25 @@
+title: Possible Command Execution to Add Full Control Permissions for Specified User (via ps_script)
+id: a9572d12-d7e0-44d4-a3f0-8886ce42bb08
+status: stable
+description:This rule detects the suspicious powershell commands that aim to add full control rights  for specified users to maintain persistence on victim domain. This tecnique can be used for backdooring adminsdholder or DCsync attack etc.
+author: Emre Ay
+references:
+- https://github.com/0xJs/RedTeaming_CheatSheet/blob/main/windows-ad/Domain-Persistence.md#dcsync
+logsource:
+  product: windows
+  category: ps_script
+detection:
+  selection:
+    ScriptBlockText|contains|all :
+    - 'Add-DomainObjectAcl'
+    - '-TargetIdentity'
+    - '-Rights'
+    - 'All'
+    - '-PrincipalIdentity'
+  condition: selection
+falsepositives:
+- The possible admin activity
+level: medium
+tags:
+- attack.persistence
+- attack.t1098.007
