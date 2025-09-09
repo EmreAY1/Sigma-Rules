@@ -1,0 +1,25 @@
+title: Possible Discovery Activity of RedLine Stealer by Accessing to Associated Registry Keys
+status: stable
+description: This rule detects the redline stealer behavior that attempts to collects the system and architecture information of the victim machine via accessing to the associated registry keys.
+author: Emre Ay
+references:
+- https://medium.com/@idan_malihi/redline-stealer-malware-analysis-76506ef723ab
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    EventID:
+    - '4663'
+    ObjectType: Key
+    ObjectName|endswith: 
+    - 'SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProductsName'
+    - 'SOFTWARE\Microsoft\Windows NT\CurrentVersion\CSDVersion'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.discovery
+- attack.t1082
+- attack.t1012
+level: medium
