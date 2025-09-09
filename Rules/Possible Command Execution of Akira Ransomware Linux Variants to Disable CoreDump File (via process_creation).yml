@@ -1,0 +1,26 @@
+title: Possible Command Execution of Akira Ransomware Linux Variants to Disable CoreDump File (via process_creation)
+id: 1929998a-1b91-4cbf-94cf-a5334e49b140
+status: stable
+description: This rule detects the suspicious ESXCLI command execution performed by akira ransomware to disable the coredump file on victim system which is linux OS. 
+author: Emre Ay
+references:
+- https://unit42.paloaltonetworks.com/threat-assessment-howling-scorpius-akira-ransomware/
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    CommandLine|contains|all:
+    - 'coredump'
+    - 'file'
+    - 'set'
+    - '--unconfigure'
+  condition: selection
+falsepositives:
+- Unlikely
+level: high
+tags:
+- attack.execution
+- attack.t1059.004
+- attack.impact
+- attack.t1489
