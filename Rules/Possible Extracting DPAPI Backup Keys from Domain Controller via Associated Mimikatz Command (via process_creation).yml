@@ -1,0 +1,22 @@
+title: Possible Extracting DPAPI Backup Keys from Domain Controller via Associated Mimikatz Command (via process_creation)
+status: stable
+description: This rule detects suspicious command execution that aim to extract dpapi backup key from the domain controller which allows the threat actors to get decrypt any user's master key and user's secrets such as chrome secrets which contains user's login data.
+author: Emre Ay
+references:
+- https://www.ired.team/offensive-security/credential-access-and-credential-dumping/reading-dpapi-encrypted-secrets-with-mimikatz-and-c++#extracting-dpapi-backup-keys-with-domain-admin
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    CommandLine|contains|all:
+    - 'lsadump::backupkeys'
+    - '/system'
+    - '/export'
+  condition: selection
+falsepositives:
+- unlikely
+level: high
+tags:
+- attack.execution
+- attack.t1059.003
