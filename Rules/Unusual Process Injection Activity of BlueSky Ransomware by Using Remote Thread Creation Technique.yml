@@ -1,0 +1,23 @@
+title: Unusual Process Injection Activity of BlueSky Ransomware by Using Remote Thread Creation Technique
+status: stable
+description: This rule detects the threat actors related with bluesky ransomware group that attempt to inject their malicious code into the legitimate process by using remote thread creation technique and also which allows the threat actors to evade process based defenses.
+author: Emre Ay
+references:
+- https://thedfirreport.com/2023/12/04/sql-brute-force-leads-to-bluesky-ransomware/
+logsource:
+    product: windows
+    category: create_remote_thread
+detection:
+    selection:
+      SourceImage|endswith:
+      - 'powershell.exe'
+      TargetImage|endswith:
+      - 'winlogon.exe'
+    condition: selection
+falsepositives:
+- Unlikely
+level: high
+tags:
+- attack.defense_evasion
+- attack.privilege_escalation
+- attack.t1055.003
