@@ -1,0 +1,24 @@
+title: Possible Command Execution to Disable Microsoft Defender Real Time Protection on Linux OS (via process_creation)
+id: 77c2eb13-69dd-4846-80fb-d3a83bab6f28
+status: stable
+description: This rule detects the suspicious command execution to disable advanced threat protection feature of microsoft defender agent by using associted parameters on victim system that has linux OS.
+author: Emre Ay
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md#atomic-test-47---tamper-with-defender-atp-on-linuxmacos
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection:
+    CommandLine|contains|all:
+    - 'mdatp'
+    - 'real-time-protection'
+    - '--value'
+    - 'disabled'
+  condition: selection
+falsepositives:
+- Unlikely
+level: high
+tags:
+- attack.defense_evasion
+- attack.t1562.001
