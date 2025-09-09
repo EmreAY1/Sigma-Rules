@@ -1,0 +1,22 @@
+title: Possible Registry Key Modification to Disable Threat File Hash Logging Functions(via  registry_event )
+status: stable
+description: This rule detects the modification of associated registry key to disable threat file recording in the event log which allows the potantial detected threat files to evade from additional detailed research and correlation with other threat flows.
+author: Emre Ay
+references:
+- https://admx.help/?Category=SystemCenterEndpointProtection&Policy=Microsoft.Policies.Antimalware::system_center_endpoint_protection_threatfile_hashlogging
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    TargetObject|endswith:
+    - '\Microsoft\Microsoft Antimalware\ThreatFileHashLogging'
+    Details:
+    - 'DWORD (0x00000000)'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.defense_evasion
+- attack.t1112
+level: medium
