@@ -1,0 +1,24 @@
+title: Possible Domain Persistence Activity via Modifying of the userAccountControl Attribute by Using Associated Powershell Script( via ps_script )
+status: stable
+description: This rule detects adversaries that attempt to execute suspicious powershell script which allow to give the DS-Install-Replica privilege to the newly created fake computer account with a known password and supply active directory persistence via manipulating userAccountControl attribute.
+references:
+- https://pentestlab.blog/2022/01/17/domain-persistence-machine-account/
+- https://stealthbits.com/blog/server-untrust-account/
+author: Emre Ay
+logsource:
+  product: windows
+  category: ps_script
+detection:
+  selection:
+    ScriptBlockText|startswith:
+    - 'Add-ServerUntrustAccount'
+    ScriptBlockText|contains|all:
+    - '-ComputerName'
+    - '-Password'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.execution
+- attack.t1059.001
+level: medium
