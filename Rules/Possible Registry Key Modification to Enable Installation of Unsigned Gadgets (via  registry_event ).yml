@@ -1,0 +1,22 @@
+title: Possible Registry Key Modification to Enable Installation of Unsigned Gadgets (via  registry_event )
+status: stable
+description: This rule detects the modification of associated registry key to enable uncontrolled installation of applications which have not been digitally signed that can cause system instability and access to sensitive information.
+author: Emre Ay
+references:
+- https://admx.help/?Category=Windows_11_2022&Policy=Microsoft.Policies.SideBar::TurnOffUnsignedGagdets_2
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    TargetObject|endswith:
+    - '\Policies\Windows\Sidebar\TurnOffUnsignedGadgets'
+    Details:
+    - 'DWORD (0x00000000)'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.defense_evasion
+- attack.t1112
+level: medium
