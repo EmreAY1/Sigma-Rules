@@ -1,0 +1,23 @@
+title: Possible Registry Key Modification Activity of ShrinkLocker Ransomware to Abuse Bitlocker (via registry_event )
+status: stable
+description: This rule detects the suspicious modification of associated registry key performed by shrinklocker ransomware to abuse bitlocker related registry value. 
+author: Emre Ay
+references:
+- https://securelist.com/ransomware-abuses-bitlocker/112643/
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    TargetObject|endswith:
+    - '\Policies\Microsoft\FVE\EnableNonTPM'
+    Details:
+    - 'DWORD (0x00000001)'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.impact
+- attack.defense_evasion
+- attack.t1112
+level: medium
