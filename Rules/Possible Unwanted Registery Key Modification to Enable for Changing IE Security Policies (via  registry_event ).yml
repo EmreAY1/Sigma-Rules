@@ -1,0 +1,22 @@
+title: Possible Unwanted Registery Key Modification to Enable for Changing IE Security Policies (via  registry_event )
+status: stable
+description: This rule detects the modification of associated registry key that allows the threat actors to change security policies of Internet Explorer on victim machine. With the help of this change, the adversaries could enable the execution of dangerous types of code from the Internet and websites listed in the restricted Sites zone in the browser.
+author: Emre Ay
+references:
+- https://admx.help/?Category=Windows_11_2022&Policy=Microsoft.Policies.InternetExplorer::Security_options_edit
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    TargetObject|endswith:
+    - '\CurrentVersion\Internet Settings\Security_options_edit'
+    Details:
+    - 'DWORD (0x00000000)'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.defense_evasion
+- attack.t1112
+level: medium
