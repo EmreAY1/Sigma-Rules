@@ -1,0 +1,26 @@
+title: Possible Active Directory Domain Enumeration Activity by Detection of Associated Powershell Commands (via ps_script)
+id: 9a09f40b-518c-4a36-9bf8-babbd4845422
+status: stable
+description:This rule detects suspicious powershell command execution to retrieve domain policy data by using associated parameters.
+author: Emre Ay
+references:
+- https://github.com/PowerShellMafia/PowerSploit/blob/master/Recon/PowerView.ps1#L14048
+- https://k4sth4.github.io/Domain-Recon/
+logsource:
+  product: windows
+  category: ps_script
+detection:
+  selection:
+    ScriptBlockText|startswith :
+    - 'Get-DomainPolicyData'
+    ScriptBlockText|contains:
+    - '-Domain'
+    - '-Policy'
+    - '-Credential'
+  condition: selection
+falsepositives:
+- Unlikely
+level: medium
+tags:
+- attack.discovery
+- attack.t1615
