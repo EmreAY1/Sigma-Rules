@@ -1,0 +1,23 @@
+title: Possible Registry Key Modification to Allow Webpages from Automatically Running Flash Plugins
+id: 22d136fe-9370-485b-abd0-00b51172c922
+status: stable
+description: This rule detects the suspicious registry key modification that allow webpages from automatically running plugins. By changing this registry key, The adversaries can run automatically vulnerable/malicious flash plugins which can cause browser instability and erratic behavior.  
+author: Emre Ay
+references:
+- https://www.stigviewer.com/stig/google_chrome_current_windows/2021-04-20/finding/V-221582
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    TargetObject|endswith:
+    - '\Policies\Google\Chrome\DefaultPluginsSetting'
+    Details:
+    - 'DWORD (0x00000001)'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.defense_evasion
+- attack.t1112
+level: medium
