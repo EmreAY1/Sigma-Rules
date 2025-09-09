@@ -1,0 +1,25 @@
+title: Suspicious STOP&DJVU Ransomware Activity by Detection of Associated Web Traffic (via proxy)
+status: stable
+description: This rule detects GET requests to URI paths known to be associated with C&C servers utilized by threat actors related with STOP/DJVU Ransomware for sending of MD5 hash of the victim’s MAC address via pid parameter to get Public Key and ID from the C2 host.
+author: Emre Ay
+references:
+- https://glyc3rius.github.io/2024/02/stop/
+logsource:
+  category: proxy
+detection:
+  selection:
+    cs-method: GET
+    c-uri|contains:
+    - 'pid='
+    c-useragent|contains|all:
+    - 'Microsoft'
+    - 'Internet'
+    - 'Explorer'
+  condition: selection
+falsepositives:
+- Unlikely
+level: medium
+tags:
+- attack.t1041
+- attack.exfiltration
+- attack.command_and_control
