@@ -1,0 +1,22 @@
+title: Possible Registry Key Modification to Disable Packed Executables Scanning (via  registry_event )
+status: stable
+description: This rule detects the modification of associated registry key which allows the threat actors to run packed executable file that functions as malware by evading from antimalware scan.
+author: Emre Ay
+references:
+- https://admx.help/?Category=SystemCenterEndpointProtection&Policy=Microsoft.Policies.Antimalware::scan_disablepackedexescanning
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    TargetObject|endswith:
+    - '\Microsoft\Microsoft Antimalware\Scan\DisablePackedExeScanning'
+    Details:
+    - 'DWORD (0x00000001)'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.defense_evasion
+- attack.t1112
+level: high
