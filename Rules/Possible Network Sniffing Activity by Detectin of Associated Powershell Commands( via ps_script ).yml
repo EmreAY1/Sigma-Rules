@@ -1,0 +1,23 @@
+title: Possible Network Sniffing Activity by Detectin of Associated Powershell Commands( via ps_script )
+status: stable
+description: This rule detects threat actors that attempt to execute suspicious powershell commands to capture network traffic of victim environment.
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1040/T1040.md#atomic-test-16---powershell-network-sniffing
+- https://learn.microsoft.com/en-us/powershell/module/neteventpacketcapture/add-neteventpacketcaptureprovider?view=windowsserver2022-ps
+author: Emre Ay
+logsource:
+  product: windows
+  category: ps_script
+detection:
+  selection:
+    ScriptBlockText|contains|all:
+    - 'Add-NetEventPacketCaptureProvider'
+    - '-SessionName'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.execution
+- attack.t1059.001
+- attack.t1040
+level: medium
