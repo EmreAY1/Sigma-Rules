@@ -1,0 +1,21 @@
+title: Suspicious Snake Keylogger Behavior by Creating Associated Registry Key  (via registry_event)
+id: 8f115f8a-e241-4dc7-9760-c87c10f329cd
+status: stable
+description: This rule detects the Snake keylogger behavior that attemp to create suspicious registry key on victim computers. The aim of this trojan is to steal sensitive information suc h as saved credentials, device information, screenshots, keystrokes, etc from the victim system. 
+author: Emre Ay
+references:
+- https://wazuh.com/blog/snake-keylogger-detection-with-wazuh/
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    TargetObject|endswith:
+    - '\CurrentVersion\Schedule\TaskCache\Tree\Updates\WeENKtk'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.defense_evasion
+- attack.t1112
+level: high
