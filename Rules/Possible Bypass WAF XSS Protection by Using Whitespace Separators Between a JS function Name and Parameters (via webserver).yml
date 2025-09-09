@@ -1,0 +1,22 @@
+title: Possible Bypass WAF XSS Protection by Using Whitespace Separators Between a JS function Name and Parameters (via webserver)
+status: stable
+description: This rule detects the threat actors that attempt to bypass XSS protection of web application firewalls via associated parameters.
+author: Emre Ay
+references:
+- https://x.com/therceman/status/1716890867846533298
+logsource:
+  category: webserver
+detection:
+  selection:
+    c-uri|contains|all:
+    - 'img/src/onerror='
+    c-uri|contains:
+    - 'alert&#xFEFF'
+    - 'alert&nbsp'
+  condition: selection
+falsepositives:
+- Unlikely
+level: high
+tags:
+- attack.initial_access
+- attack.t1190
