@@ -1,0 +1,22 @@
+title: Suspicious Exfiltration Activity of FakeBat Loader by Detection of Associated Web Traffic (via proxy)
+status: stable
+description: This rule detects the threat actors related with FakeBat Loader campaign that attempt to exfiltrate the significant data such as antivirus, operation system and domain information of victim system through its C2 servers via using associated parameters.
+author: Emre Ay
+references:
+- https://blog.sekoia.io/exposing-fakebat-loader-distribution-methods-and-adversary-infrastructure/
+logsource:
+  category: proxy
+detection:
+  selection:
+    c-uri|contains|all:
+    - 'status='
+    - 'av='
+    - 'domain='
+    - 'os='
+  condition: selection
+falsepositives:
+- Unlikely
+level: high
+tags:
+- attack.t1041
+- attack.exfiltration
