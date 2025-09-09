@@ -1,0 +1,22 @@
+title: Possible Tampering Windows Defender for Allowing Users to Pause Scan (via  registry_event )
+status: stable
+description: This rule detects the adversaries that attempt to tamber windows defender by modifying associated registry key which allows to pause scan in progress.
+author: Emre Ay
+references:
+- https://admx.help/?Category=Windows_10_2016&Policy=Microsoft.Policies.WindowsDefender::Scan_AllowPause
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    TargetObject|endswith:
+    - '\Windows Defender\Scan\AllowPause'
+    Details:
+    - 'DWORD (0x00000001)'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.defense_evasion
+- attack.t1112
+level: medium
