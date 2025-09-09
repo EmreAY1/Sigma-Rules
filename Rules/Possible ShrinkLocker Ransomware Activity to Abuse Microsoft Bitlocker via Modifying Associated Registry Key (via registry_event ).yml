@@ -1,0 +1,23 @@
+title: Possible ShrinkLocker Ransomware Activity to Abuse Microsoft Bitlocker via Modifying Associated Registry Key (via registry_event )
+status: stable
+description: This rule detects the Shrinklocker ransomware behavior that attempt to modify registry value which allows to abuse microsoft bitlocker. 
+author: Emre Ay
+references:
+- https://securelist.com/ransomware-abuses-bitlocker/112643/
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    TargetObject|endswith:
+    - '\Policies\Microsoft\FVE\UsePartialEncryptionKey'
+    Details:
+    - 'DWORD (0x00000002)'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.impact
+- attack.defense_evasion
+- attack.t1112
+level: high
