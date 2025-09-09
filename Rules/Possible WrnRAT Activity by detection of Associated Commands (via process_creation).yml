@@ -1,0 +1,24 @@
+title: Possible WrnRAT Activity by detection of Associated Commands (via process_creation)
+status: stable
+description: This rule detects suspicious command execution performed by WrnRAT that attemp to capture and transmit the victim's screen and also transmit the some information such as IP, MAC address, Client ID of the victim system.
+author: Emre Ay
+references:
+- https://asec.ahnlab.com/ko/84013/
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    CommandLine|contains:
+    - 'PC_INFO_REQ'
+    - 'SET_MONITOR_STATE'
+    - 'KILL_PROCESS_REQ'
+    - 'SET_CAPTURE_DELAY'
+    - 'SET_CAPTURE_QUALITY'
+  condition: selection
+falsepositives:
+- unlikely
+level: high
+tags:
+- attack.execution
+- attack.t1059.003
