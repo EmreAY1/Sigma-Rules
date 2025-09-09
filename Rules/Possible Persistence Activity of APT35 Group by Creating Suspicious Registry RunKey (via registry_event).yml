@@ -1,0 +1,23 @@
+title: Possible Persistence Activity of APT35 Group by Creating Suspicious Registry RunKey (via registry_event)
+id: 8f115f8a-e241-4dc7-9760-c87c10f329cd
+status: stable
+description: This rule detects the suspicious creation of registry runkey related with APT35 group that attempt to maintain persistence on victim system and silently load the malicious program.
+author: Emre Ay
+references:
+- https://threatbook.io/blog/APT35-Forges-Recruitment-Sites,-Launches-Attacks-on-Aerospace-and-Semiconductor-Industries-in-Multiple-Countries
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    TargetObject|endswith:
+    - '\Microsoft\Windows\CurrentVersion\Run\OneDrive'
+    Details|contains:
+    - '\WindowsInsights\workstation\FileCoAuth.exe'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.persistence
+- attack.t1547.001
+level: medium
