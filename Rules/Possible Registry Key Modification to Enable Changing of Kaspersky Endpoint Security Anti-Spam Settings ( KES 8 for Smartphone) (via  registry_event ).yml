@@ -1,0 +1,22 @@
+title: Possible Registry Key Modification to Enable Changing of Kaspersky Endpoint Security Anti-Spam Settings ( KES 8 for Smartphone) (via  registry_event )
+status: stable
+description: This rule detects the modification of associated registry key to disable blocking of the use of the kaspersky endpoint security Anti-Spam component which allows the threat actors to change anti-spam configurations on the mobile device.Note that this rule is applicable to Kaspersky Endpoint Security for Smartphone.
+author: Emre Ay
+references:
+- https://admx.help/?Category=Endpoint8&Policy=Kaspersky.Endpoint.Security::DisableAntispam_Policy
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    TargetObject|endswith:
+    - '\Kaspersky Lab\Endpoint8\Policies\DisableAntispam'
+    Details:
+    - 'DWORD (0x00000001)'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.defense_evasion
+- attack.t1112
+level: medium
