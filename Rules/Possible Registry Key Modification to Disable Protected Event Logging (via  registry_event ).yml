@@ -1,0 +1,22 @@
+title: Possible Registry Key Modification to Disable Protected Event Logging (via  registry_event )
+status: stable
+description: This rule detects the modification of associated registry key to disable protected event logging which contains sensitive information. This unwanted modification allows to adversaries to capture credentials and sensitive data in the unencrypted logs.
+author: Emre Ay
+references:
+- https://admx.help/?Category=Windows_10_2016&Policy=Microsoft.Policies.EventLogging::EnableProtectedEventLogging
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    TargetObject|endswith:
+    - '\EventLog\ProtectedEventLogging\EnableProtectedEventLogging'
+    Details:
+    - 'DWORD (0x00000000)'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.defense_evasion
+- attack.t1112
+level: medium
