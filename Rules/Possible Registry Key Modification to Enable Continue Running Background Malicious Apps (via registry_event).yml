@@ -1,0 +1,24 @@
+title: Possible Registry Key Modification to Enable Continue Running Background Malicious Apps (via registry_event)
+id: e54d5882-969b-4054-954d-53e0f7a81187
+status: stable
+description: This rule detects the suspicious registry key modification that enable continue running background malicious apps when Microsoft Edge is closed. When this setting is enabled, vulnerable or malicious plugins, apps and processes can continue running even after Microsoft Edge has closed.
+author: Emre Ay
+references:
+- https://admx.help/?Category=EdgeChromium&Policy=Microsoft.Policies.Edge::BackgroundModeEnabled
+- https://www.syxsense.com/syxsense-securityarticles/cis_benchmarks_(ms_edge)/syx-1038-12799.html
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    TargetObject|endswith:
+    - '\Policies\Microsoft\Edge\BackgroundModeEnabled'
+    Details:
+    - 'DWORD (0x00000001)'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.defense_evasion
+- attack.t1112
+level: high
