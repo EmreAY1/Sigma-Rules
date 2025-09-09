@@ -1,0 +1,25 @@
+title: Possible Registry Key Modification to Disable Safe DLL Search Mode (via registry_event)
+id: fc7dad41-d0c7-40de-b496-5f1dd96e990b
+status: stable
+description: The Safe DLL Search Mode feature determines whether an application searches for DLLs in the system path before searching the current working directory. This rule detects the suspicious registry key modification that allows the threat actors insert unauthorized DLL into an applications working directory could allow malicious code to be run on the system.  
+author: Emre Ay
+references:
+- https://admx.help/?Category=SecurityBaseline&Policy=Microsoft.Policies.MSS::Pol_MSS_SafeDllSearchMode
+- https://learn.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-search-order#standard-search-order-for-unpackaged-apps
+- https://www.tenable.com/audits/items/CIS_MS_Windows_10_Enterprise_Level_1_v1.9.1.audit:46310bd1e9a676286b04615b34d3bd32
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    TargetObject|endswith:
+    - '\CurrentControlSet\Control\Session Manager\SafeDllSearchMode'
+    Details:
+    - 'DWORD (0x00000000)'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.defense_evasion
+- attack.t1112
+level: high
