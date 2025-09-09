@@ -1,0 +1,23 @@
+title: Possible Registry Key Modification to Allow Third Party Cookies
+id: c1d7b69a-dff8-47f4-97ba-b416255a3786
+status: stable
+description: This rule detects the changing of associated registry key which allows the third party cookies on system.
+author: Emre Ay
+references:
+- https://admx.help/?Category=EdgeChromium&Policy=Microsoft.Policies.Edge::BlockThirdPartyCookies
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    TargetObject|endswith:
+    - '\Policies\Microsoft\Edge\BlockThirdPartyCookies'
+    Details:
+    - 'DWORD (0x00000000)'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.defense_evasion
+- attack.t1112
+level: medium
