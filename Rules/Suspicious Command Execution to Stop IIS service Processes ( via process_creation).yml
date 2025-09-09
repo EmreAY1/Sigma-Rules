@@ -1,0 +1,23 @@
+title: Suspicious Command Execution to Stop IIS service Processes ( via process_creation)
+id: eda20518-bad9-4d69-890d-d5146ce81126
+status: stable
+description: This rule detects possible Internet Information Service processes termaination attempt to prevent legal users from accessing the IIS service. 
+references:
+- https://www.logpoint.com/en/blog/hunting-and-remediating-blackcat-ransomware/#
+author: Emre Ay
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    Image|endswith:
+    - 'iisreset.exe'
+    CommandLine|contains|all:
+    - 'stop'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.impact
+- attack.t1489
+level: medium
