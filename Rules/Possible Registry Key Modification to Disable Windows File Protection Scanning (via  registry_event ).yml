@@ -1,0 +1,22 @@
+title: Possible Registry Key Modification to Disable Windows File Protection Scanning (via  registry_event )
+status: stable
+description: This rule detects the modification of associated registry key to disable setting of windows file protection scanning
+author: Emre Ay
+references:
+- https://admx.help/?Category=Windows10_Telemetry&Policy=Microsoft.Policies.Win10Privacy::DontReportInfection
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    TargetObject|endswith:
+    - '\Microsoft\MRT\DontReportInfectionInformation'
+    Details:
+    - 'DWORD (0x00000001)'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.defense_evasion
+- attack.t1112
+level: medium
