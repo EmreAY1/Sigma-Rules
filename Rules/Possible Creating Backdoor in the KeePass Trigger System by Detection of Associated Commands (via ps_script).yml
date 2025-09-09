@@ -1,0 +1,22 @@
+title: Possible Creating Backdoor in the KeePass Trigger System by Detection of Associated Commands (via ps_script)
+status: stable
+description:This rule detects the suspicious powershell command execution that aim to create backdoor in keepass trigger system config. The threat actors can add malicious KeePass triggers by using this technique.
+author: Emre Ay
+references:
+- https://github.com/0xJs/RedTeaming_CheatSheet/blob/main/windows-ad/Post-Exploitation.md#create-backdoor-in-config
+logsource:
+  product: windows
+  category: ps_script
+detection:
+  selection:
+    ScriptBlockText|contains|all:
+    - 'Add-KeePassConfigTrigger'
+    - '-path'
+    - '-ExportPath'
+  condition: selection
+falsepositives:
+- Unlikely
+level: medium
+tags:
+- attack.execution
+- attack.t1059.001
