@@ -1,0 +1,23 @@
+title: Suspicious Command Execution to Describe the Image in GCP (via gcpaudit)
+status: stable
+description: This rule detects the command execution activity to get detailed information about the image in GCP. 
+references:
+- https://unit42.paloaltonetworks.com/privilege-escalation-llm-model-exfil-vertex-ai/
+author: Emre Ay
+logsource:
+    product: gcp
+    service: gcp.audit
+detection:
+    selection:
+        gcp.audit.method_name|startswith:
+            - 'gcloud'
+        gcp.audit.method_name|contains|all:
+            - 'images'
+            - 'describe'
+    condition: selection
+falsepositives:
+-Unlikely
+tags:
+- attack.discovery
+- attack.t1580
+level: medium
