@@ -1,0 +1,24 @@
+title: Possible Persistence Activity Using FalseFont Backdoor by Adding Suspicious Registry key ( via registry_event )
+status: stable
+description: This rule detects Curious Serpens (aka Peach Sandstorm) activity that drops a copy into the %AppData% path and registers it as a startup program. Adversaries use this technique to achieve its persistence on a victim machine. 
+author: Emre Ay
+references:
+- https://unit42.paloaltonetworks.com/curious-serpens-falsefont-backdoor/
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    TargetObject|contains: 
+    - 'Windows\CurrentVersion\Run'
+    Details|contains:
+    - '\AppData\Roaming\host.exe'
+    - '\AppData\Local\broker.exe'
+    - '\AppData\Local\Microsoft\System.exe'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.persistence
+- attack.t1547.001
+level: medium
