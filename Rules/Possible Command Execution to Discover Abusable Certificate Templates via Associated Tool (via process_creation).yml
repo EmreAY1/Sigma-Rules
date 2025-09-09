@@ -1,0 +1,27 @@
+title: Possible Command Execution to Discover Abusable Certificate Templates via Associated Tool (via process_creation)
+id: 11cfef73-41ac-4b1a-98a1-ee65e7a9f700
+status: stable
+description: This rule detects the suspicious tool usage that attempt to find vulnerable/abusable certificate templates via using associated parameters. After getting information about vulnerable certificate , the threat actors can use this information for planning their further activities.
+references:
+- https://github.com/Hagrid29/CertifyKit?tab=readme-ov-file#usage
+author: Emre Ay
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    Image|endswith:
+    - 'CertifyKit.exe'
+    CommandLine|contains|all:
+    - '/vulnerable'
+    - '/ca'
+    - '/domain'
+    - '/ldapserver'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.discovery
+- attack.credential_access
+- attack.t1649
+level: medium
