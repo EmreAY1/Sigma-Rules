@@ -1,0 +1,23 @@
+title: Possible Registry Key Modification to Disable Email Scanning Function on Windows Defender (via registry_event )
+status: stable
+description: This rule detects the unusual modification of associated registry key to disable email scanning configuration which prevents to analyze the e-mails that has malicious content, malicious attachment and files. 
+author: Emre Ay
+references:
+- https://admx.help/?Category=Windows_8.1_2012R2&Policy=Microsoft.Policies.WindowsDefender::Scan_DisableEmailScanning
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    TargetObject|endswith:
+    - '\Policies\Microsoft\Windows Defender\Scan\DisableEmailScanning'
+    Details:
+    - 'DWORD (0x00000001)'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.impact
+- attack.defense_evasion
+- attack.t1112
+level: medium
