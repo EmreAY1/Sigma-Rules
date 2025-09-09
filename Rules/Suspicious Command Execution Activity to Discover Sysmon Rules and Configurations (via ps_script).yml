@@ -1,0 +1,21 @@
+title: Suspicious Command Execution Activity to Discover Sysmon Rules and Configurations (via ps_script)
+status: stable
+description: This rule detects the threat actors that attempt to discover sysmon configuration on victim system for planning their further malicious activity. After getting config information, the threat actors can be able to evade possible detections.
+author: Emre Ay
+references:
+- https://www.ired.team/offensive-security/enumeration-and-discovery/detecting-sysmon-on-the-victim-host#get-sysmonconfiguration
+logsource:
+  product: windows
+  category: ps_script
+detection:
+  selection:
+    ScriptBlockText|contains|all:
+    - 'Get-SysmonConfiguration'
+    - 'Rules'
+  condition: selection
+falsepositives:
+- Unlikely
+level: high
+tags:
+- attack.execution
+- attack.t1059.001
