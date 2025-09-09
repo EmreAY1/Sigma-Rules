@@ -1,0 +1,22 @@
+title: Possible PwmTower DLL Side Loading Attempt to Ensure Persistence (via image_load)
+status: stable
+description: This rule detects Dll sideload activity by abusing legitimate password manager tool to ensure persistence on victim system.
+author: Emre Ay
+references:
+- https://unit42.paloaltonetworks.com/dll-hijacking-techniques/
+logsource:
+  product: windows
+  category: image_load
+detection:
+  selection:
+    Image|endswith:
+    - 'PwmTower.exe'
+    ImageLoaded|endswith:
+     - 'nw.dll'
+  condition: selection
+falsepositives:
+- Unlikely
+level: medium
+tags:
+- attack.defense_evasion
+- attack.t1574.002
