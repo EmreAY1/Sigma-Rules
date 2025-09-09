@@ -1,0 +1,24 @@
+title: Suspicious Command Execution to Enumerate Available Drivers on the System (via ps_script)
+status: stable
+description:This rule detects the suspicious powershell command that aim to get available drives on the compromised system to discover File Storage locations via associated parameter.
+author: Emre Ay
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1082/T1082.md#atomic-test-38---enumerate-available-drives-via-gdr
+logsource:
+  product: windows
+  category: ps_script
+detection:
+  selection:
+    ScriptBlockText|contains|all :
+    - 'gdr'
+    - '-PSProvider'
+    - 'FileSystem'
+  condition: selection
+falsepositives:
+- unlikely
+level: medium
+tags:
+- attack.discovery
+- attack.t1082
+- attack.execution
+- attack.t1059.001
