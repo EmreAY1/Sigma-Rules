@@ -1,0 +1,25 @@
+title: Possible Operating System Time Zone Discovery by Querying Associated Registry Key (via process_creation)
+id: 422c026d-4b8c-48c1-ad2c-183d2e1eaad3
+status: stable
+description: This rule detects suspicious discovery activity to get operating system time zone information of the victim system.
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1124/T1124.md#atomic-test-6---discover-system-time-zone-via-registry
+author: Emre Ay
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    Image|endswith:
+    - 'reg.exe'
+    CommandLine|contains|all:
+    - 'query'
+    - 'HKLM\SYSTEM\CurrentControlSet\Control\TimeZoneInformation'
+    - 'TimeZoneKeyName'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.discovery
+- attack.t1124
+level: medium
