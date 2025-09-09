@@ -1,0 +1,23 @@
+title: Possible Registry Key Modification to Disable Automatic Updates for All Office Products
+id: d733a01a-c30a-4c2f-9c75-93e83d27811a
+status: stable
+description: Security updates help prevent malicious attacks on Office applications. Timely application of Office updates helps ensure the security of devices and the applications running on the devices. Without these updates, devices and the applications running on those devices are more susceptible to security attacks. This rule detects the suspicious registry key modification that attempt to disable automatic updates for office products.
+author: Emre Ay
+references:
+- https://admx.help/?Category=Office2016&Policy=office16.Office.Microsoft.Policies.Windows::L_EnableAutomaticUpdates
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    TargetObject|endswith:
+    - '\common\officeupdate\enableautomaticupdates'
+    Details:
+    - 'DWORD (0x00000000)'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.defense_evasion
+- attack.t1112
+level: high
