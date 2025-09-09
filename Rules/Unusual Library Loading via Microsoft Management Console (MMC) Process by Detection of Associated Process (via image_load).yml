@@ -1,0 +1,24 @@
+title: Unusual Library Loading via Microsoft Management Console (MMC) Process by Detection of Associated Process (via image_load)
+status: stable
+description: Refers to a security measure aimed at detecting any suspicious or unusual loading of libraries in Microsoft Management Console (MMC) application. This can help to identify potential threats, such as malware infections like GrimResource, or other types of malicious activities. The detection is performed through analysis of the image load process in mmc.exe application, allowing the system to flag any unusual or unexpected library loading behavior. This activity may be related to the GrimResource infection technique. 
+author: Emre Ay
+references:
+- https://www.elastic.co/security-labs/grimresource
+logsource:
+  product: windows
+  category: image_load
+detection:
+  selection:
+    Image|endswith:
+    - 'mmc.exe'
+    ImageLoaded|endswith:
+    - 'jscript.dll'
+    - 'vbscript.dll'
+    - 'msxml3.dll' 
+  condition: selection
+falsepositives:
+- Unlikely
+level: medium
+tags:
+- attack.initial_access
+- attack.t1566.001
