@@ -1,0 +1,22 @@
+title: Potantial Unwanted Registry Key Modification to Disable Malicious Software Reporting Tool (via  registry_event )
+status: stable
+description: This rule detects the modification of associated registry key to disable MRT,Malicious Software Reporting tool,.Because of this change, any potantial infection on victim system will not be reported.
+author: Emre Ay
+references:
+- https://admx.help/?Category=Windows10_Telemetry&Policy=Microsoft.Policies.Win10Privacy::DontReportInfection
+logsource:
+  product: windows
+  category: registry_event
+detection:
+  selection:
+    TargetObject|endswith:
+    - '\Microsoft\MRT\DontReportInfectionInformation'
+    Details:
+    - 'DWORD (0x00000001)'
+  condition: selection
+falsepositives:
+- Unlikely
+tags:
+- attack.defense_evasion
+- attack.t1112
+level: medium
